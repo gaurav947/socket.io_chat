@@ -1,0 +1,20 @@
+{
+  "name": "socialgalaxy",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node i"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "~4.16.1",
+    "express-validation": "^2.0.0",
+    "express-validator": "^6.4.0",
+    "mongoose": "^5.12.10",
+    "request": "^2.88.2",
+    "socket.io": "^2.4.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.0"
+  }
+}

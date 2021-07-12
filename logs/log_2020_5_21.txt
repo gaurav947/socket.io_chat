@@ -1,0 +1,16 @@
+{"socket.id":"ZqC43pTIVd8SnCEgAAAA","event.name":"join","event.data.user_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"Q-WEraVKa4mybXNOAAAB","event.name":"receiverAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"Q-WEraVKa4mybXNOAAAB","event.name":"initializeChat","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"4zosMtj8qLiTddGTAAAA","event.name":"recieveAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839"}
+{"socket.id":"4zosMtj8qLiTddGTAAAA","event.name":"join","event.data.user_id":"5ec3fb0be9de421064b6a839"}
+{"socket.id":"4zosMtj8qLiTddGTAAAA","event.name":"recieveAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839"}
+{"socket.id":"LakGO_3bcFTY_pTLAAAA","event.name":"recieveAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839"}
+{"socket.id":"LakGO_3bcFTY_pTLAAAA","event.name":"recieveAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839"}
+{"socket.id":"LakGO_3bcFTY_pTLAAAA","event.name":"recieveAllMessages","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"LakGO_3bcFTY_pTLAAAA","event.name":"sendMessage","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"qaPs7elKpPNyub-tAAAA","event.name":"sendMessage","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"CyIMd0TbyzQ6B0p4AAAA","event.name":"recieveAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"CyIMd0TbyzQ6B0p4AAAA","event.name":"recieveAllMessages","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"CyIMd0TbyzQ6B0p4AAAA","event.name":"recieveAllMessages","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"CyIMd0TbyzQ6B0p4AAAA","event.name":"recieveAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
+{"socket.id":"iT5dg-xlWQ8umpl8AAAA","event.name":"recieveAllChats","event.data.user_id":"5ec3fb0be9de421064b6a839","event.data.chat_id":"5ec54a702dff7e2d942c0237","event.data.receiver_id":"5ec3fa466e727235a81150ec"}
