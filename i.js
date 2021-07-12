@@ -14,6 +14,7 @@ io.on('connection',function(socket){
       io.sockets.in(req.sender_id).emit("join" , { status: 1 , message: "Sucessfully Joined."});
    });
    socket.on('intialize_chat',function(req){
+      console.log("req = ",req);
       chat_s.aggregate([
 
          {
@@ -96,6 +97,7 @@ io.on('connection',function(socket){
                if(result)
                {
                      console.log("chat_id not same");
+                     console.log("after create in result",result);
                      socket.emit("intialize_chat", {status:1, data:result,message: "chat initialized"});
                      io.sockets.in(req.receiver_id).emit('intialize_chat',{status:1, data:result,message: "Connection established!!"});
                      io.sockets.in(req.sender_id).emit('intialize_chat',{status:1, data:result,message: "Connection established!!"});        
