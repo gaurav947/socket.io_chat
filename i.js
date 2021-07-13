@@ -23,7 +23,6 @@ io.on('connection',function(socket){
       
    });
    socket.on('intialize_chat',function(req){
-      console.log("req=",req);
       chat_s.aggregate([
          {
             $match: 
@@ -81,105 +80,119 @@ io.on('connection',function(socket){
       ],function(err,result){
          if(result && result.length)
          {
-            console.log(result);
-            io.sockets.in(req.sender_id).emit("intialize_chat" , { status: 1 ,data:result,message: "Sucessfully Joined."});
-            // io.sockets.in(req.receiver_id).emit('intialize_chat',{status:1, data:r,message: "chat initialized"});
-            //io.sockets.in(req.sender_id).emit('intialize_chat',{status:1, data:r,message: "chat initialized"});
-            socket.to(req.sender_id).emit("intialize_chat",{status:1, data:result,message: "Connection established!!"})
-            io.to(req.sender_id).emit('intialize_chat',{status:1, data:result,message: "Connection established!!"});
-            io.to(req.receiver_id).emit('intialize_chat',{status:1, data:result,message: "Connection established!!"});
+            console.log(result);  
+            io.to(req.sender_id).emit('intialize_chat',{status:1, data:result,message: "Connection already established!!"});
          }
          else if(err)
          {
-            io.socket.in(req.receiver_id).emit('intialize_chat',{data:'',error:'error'});
-            io.socket.in(req.sender_id).emit('intialize_chat',{data:'',error:'error'})
+            console.log("first err=>",err);
+            io.to(req.sender_id).emit('intialize_chat',{status:0, error:err,message: "Error while connection establishment!!"});
          }
          else
          {
+            console.log("else");
             var data = {
                sender_id:req.sender_id,
                receiver_id:req.receiver_id
             }
-            chat_s.create(data,function(er,result1){
-               if(result1)
-               {
-                  chat_s.aggregate([
-                     {
-                        $match: 
-                        {               
+         register.find({
+               '_id': { $in: [
+                   mongoose.Types.ObjectId(req.sender_id),
+                   mongoose.Types.ObjectId(req.receiver_id), 
+               ]}
+         }, function(err1, docs){
+            if(docs.length>1)
+            {
+               console.log("docs=>",docs.length);
+               chat_s.create(data,function(er,result1){
+                  console.log("result1 =>",result1);
+                  if(result1)
+                  {
+                     console.log(result1);
+                     chat_s.aggregate([
+                        {
+                           $match: 
+                           {               
                               $or:[
                                  {sender_id:mongoose.Types.ObjectId(result1.sender_id),receiver_id:mongoose.Types.ObjectId(result1.receiver_id)},
                                  {sender_id:mongoose.Types.ObjectId(result1.receiver_id),receiver_id:mongoose.Types.ObjectId(result1.sender_id)}
-                               ]
+                              ]
+                           }
+                        },
+                        {
+                           $lookup:{
+                              from:"registers",
+                              localField:"sender_id",
+                              foreignField:"_id",
+                              as:"sender"
+                           }
+                        },
+                        {
+                           $unwind:{
+                              path:"$sender"
+                           }
+                        },
+                        {
+                           $lookup:{
+                              from:"registers",
+                              localField:"receiver_id",
+                              foreignField:"_id",
+                              as:"receiver"
+                           }
+                        },
+                        {
+                           $unwind:{
+                              path:"$receiver"
+                           }
+                        },
+                        {
+                           $addFields:{
+                              name_sender:"$sender.name",
+                              image_sender:"$sender.image"
+                           }
+                        },
+                        {
+                           $addFields:{
+                              name_receiver:"$receiver.name",
+                              image_receiver:"$receiver.image"
+                           }
+                        },
+                        {
+                           $project:{
+                              sender:0,
+                              receiver:0
+                           }
                         }
-                  },
-                     {
-                        $lookup:{
-                           from:"registers",
-                           localField:"sender_id",
-                           foreignField:"_id",
-                           as:"sender"
+                     ],function(e,r){
+                        if(r)
+                        {
+                           console.log("user_Data=>",r)
+                           io.to(req.sender_id).emit('intialize_chat',{status:1, data:r,message: "New Connection established!!"});
                         }
-                     },
-                     {
-                        $unwind:{
-                           path:"$sender"
+                        if(e)
+                        {
+                           io.to(req.sender_id).emit('intialize_chat',{status:0, Error:e,message: "Error while new connection establishment"});
                         }
-                     },
-                     {
-                        $lookup:{
-                           from:"registers",
-                           localField:"receiver_id",
-                           foreignField:"_id",
-                           as:"receiver"
-                        }
-                     },
-                     {
-                        $unwind:{
-                           path:"$receiver"
-                        }
-                     },
-                     {
-                        $addFields:{
-                           name_sender:"$sender.name",
-                           image_sender:"$sender.image"
-                        }
-                     },
-                     {
-                        $addFields:{
-                           name_receiver:"$receiver.name",
-                           image_receiver:"$receiver.image"
-                        }
-                     },
-                     {
-                        $project:{
-                           sender:0,
-                           receiver:0
-                        }
-                     }
-                  ],function(e,r){
-                     if(r)
-                     {
-                        console.log("after create in result",r);
-                        socket.emit("intialize_chat", {status:1, data:r,message: "chat initialized"});
-                        io.sockets.in(req.receiver_id).emit('intialize_chat',{status:1, data:r,message: "Connection established!!"});
-                        io.sockets.in(req.sender_id).emit('intialize_chat',{status:1, data:r,message: "Connection established!!"});        
-                        socket.to(req.sender_id).emit("intialize_chat",{status:1, data:r,message: "Connection established!!"})
-                        io.to(req.sender_id).emit('intialize_chat',{status:1, data:r,message: "Connection established!!"});
-                        io.to(req.receiver_id).emit('intialize_chat',{status:1, data:r,message: "Connection established!!"});
-                     }
-                     if(e)
-                     {
-                        io.socket.in(req.sender_id).emit('intialize_chat',{data:'',error:'error'});
-                     }
-                  });
-
+                     });
+   
+                  }
+                  if(er)
+                  {
+                     console.log("error=>",er);
+                     io.to(req.sender_id).emit('intialize_chat',{status:0, Error:er,message: "Error while Creating  connection establishment"});
+                  } 
+               });
                }
-               if(er)
-               {
-                  io.socket.in(req.sender_id).emit('intialize_chat',{data:'',error:'error'});
-               } 
-            });
+            else if(docs.length==1||docs.length==0)
+            {
+               io.to(req.sender_id).emit('intialize_chat',{status:0,message: "users is not valid"});
+
+            }
+            if(err1)
+            {
+               io.to(req.sender_id).emit('intialize_chat',{status:0, Error:err1,message: "Error while finding users"});
+            }
+         });
          }
       })
    })
